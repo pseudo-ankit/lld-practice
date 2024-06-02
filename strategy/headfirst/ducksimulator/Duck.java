@@ -1,7 +1,7 @@
 package strategy.headfirst.ducksimulator;
 
 public abstract class Duck {
-    abstract void display();
+    public abstract void display();
 
     public void fly() {
         System.out.println("default fly....");

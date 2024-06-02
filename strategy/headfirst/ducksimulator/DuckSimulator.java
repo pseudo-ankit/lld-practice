@@ -1,9 +1,4 @@
-package strategy.headfirst.ducksimulator.behavior;
-
-import strategy.headfirst.ducksimulator.DecoyDuck;
-import strategy.headfirst.ducksimulator.MallardDuck;
-import strategy.headfirst.ducksimulator.RedHeadDuck;
-import strategy.headfirst.ducksimulator.RubberDuck;
+package strategy.headfirst.ducksimulator;
 
 import java.util.List;
 
@@ -14,8 +9,8 @@ public class DuckSimulator {
                     System.out.printf("############################# From %s #############################%n",
                             duck.getClass().getSimpleName());
                     duck.display();
-                    duck.fly();
-                    duck.quack();
+                    duck.doPerformFly();
+                    duck.doPerformQuack();
                     duck.swim();
                 });
     }

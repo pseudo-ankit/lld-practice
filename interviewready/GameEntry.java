@@ -9,7 +9,7 @@ public class GameEntry {
 
     }
 
-    public GameResult isCompleted(Board board) {
+    public GameResult.GameResult isCompleted(Board board) {
 
         if(board instanceof TicTacToeBoard ticTacToeBoard) {
             String firstCharacter = "-";
@@ -29,7 +29,7 @@ public class GameEntry {
             }
 
             if(isRowComplete) {
-                return new GameResult(true, firstCharacter);
+                return new GameResult.GameResult(true, firstCharacter);
             }
 
             boolean isColComplete = true;
@@ -47,7 +47,7 @@ public class GameEntry {
             }
 
             if(isColComplete) {
-                return new GameResult(true, firstCharacter);
+                return new GameResult.GameResult(true, firstCharacter);
             }
 
 
@@ -61,7 +61,7 @@ public class GameEntry {
             }
 
             if(isDiagComplete) {
-                return new GameResult(true, firstCharacter);
+                return new GameResult.GameResult(true, firstCharacter);
             }
 
             boolean isRevDiagComplete = true;
@@ -74,7 +74,7 @@ public class GameEntry {
             }
 
             if(isRevDiagComplete) {
-                return new GameResult(true, firstCharacter);
+                return new GameResult.GameResult(true, firstCharacter);
             }
 
 
@@ -87,40 +87,14 @@ public class GameEntry {
                 }
             }
             if(countOfFilledCells == 9) {
-                return new GameResult(false, "-");
+                return new GameResult.GameResult(false, "-");
             } else {
-                return new GameResult(false, "-");
+                return new GameResult.GameResult(false, "-");
             }
         } else {
-            return new GameResult(false, "-");
+            return new GameResult.GameResult(false, "-");
         }
     }
 
 }
 
-class Board {
-
-}
-
-class TicTacToeBoard extends Board {
-    String[][] cells = new String[3][3];
-
-}
-
-class Player {
-
-}
-
-class Move {
-
-}
-
-class GameResult {
-    boolean isCompleted;
-    String winner;
-    public GameResult(boolean isCompleted, String winner) {
-        this.isCompleted = isCompleted;
-        this.winner = winner;
-    }
-
-}

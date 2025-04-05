@@ -13,6 +13,8 @@ public class TicTacToeBoard extends Board {
     }
 
     private void setCell(Cell cell, String symbol) {
+        if(cells[cell.getRow()][cell.getCol()] != null)
+            throw new IllegalStateException("Cell is already set");
         cells[cell.getRow()][cell.getCol()] = symbol;
     }
 

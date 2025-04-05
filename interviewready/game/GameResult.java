@@ -1,8 +1,8 @@
 package interviewready.game;
 
 public class GameResult {
-    private boolean isCompleted;
-    private String winner;
+    private final boolean isCompleted;
+    private final String winner;
 
     public GameResult(boolean isCompleted, String winner) {
         this.isCompleted = isCompleted;

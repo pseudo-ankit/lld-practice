@@ -1,4 +1,4 @@
-package com.aks.ducksimulator.interviewready.game;
+package com.aks.interviewready.game;
 
 public abstract class Board {
     public  abstract void move(Move move);

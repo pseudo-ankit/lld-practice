@@ -1,8 +1,8 @@
-package com.aks.ducksimulator.interviewready.api;
+package com.aks.interviewready.api;
 
-import com.aks.ducksimulator.interviewready.boards.TicTacToeBoard;
-import com.aks.ducksimulator.interviewready.game.Board;
-import com.aks.ducksimulator.interviewready.game.Move;
+import com.aks.interviewready.boards.TicTacToeBoard;
+import com.aks.interviewready.game.Board;
+import com.aks.interviewready.game.Move;
 
 public class GameEngine {
     public Board start(String type) {

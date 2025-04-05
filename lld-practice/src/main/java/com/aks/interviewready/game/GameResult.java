@@ -1,4 +1,4 @@
-package com.aks.ducksimulator.interviewready.game;
+package com.aks.interviewready.game;
 
 public class GameResult {
     private final boolean isCompleted;

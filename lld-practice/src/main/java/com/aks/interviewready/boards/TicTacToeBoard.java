@@ -1,8 +1,8 @@
-package com.aks.ducksimulator.interviewready.boards;
+package com.aks.interviewready.boards;
 
-import com.aks.ducksimulator.interviewready.game.Board;
-import com.aks.ducksimulator.interviewready.game.Cell;
-import com.aks.ducksimulator.interviewready.game.Move;
+import com.aks.interviewready.game.Board;
+import com.aks.interviewready.game.Cell;
+import com.aks.interviewready.game.Move;
 
 public class TicTacToeBoard extends Board {
     private String[][] cells = new String[3][3];

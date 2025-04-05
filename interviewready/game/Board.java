@@ -1,5 +1,6 @@
 package interviewready.game;
 
-public class Board {
+public abstract class Board {
+    public  abstract void move(Move move);
 
 }

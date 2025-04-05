@@ -21,12 +21,12 @@ public class Main {
             System.out.println("Make your move :");
             row = scanner.nextInt();
             col = scanner.nextInt();
-            engine.move(ticTacToe, user, new Move(new Cell(row, col)));
+            engine.move(ticTacToe, new Move(new Cell(row, col), user));
             System.out.println(ticTacToe);
 
             if(!engine.isCompleted(ticTacToe).isCompleted()) {
                 Move move = engine.suggestMove(computer, ticTacToe);
-                engine.move(ticTacToe, computer, move);
+                engine.move(ticTacToe, move);
                 System.out.println(ticTacToe);
             }
         }

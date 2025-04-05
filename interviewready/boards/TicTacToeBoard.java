@@ -2,17 +2,19 @@ package interviewready.boards;
 
 import interviewready.game.Board;
 import interviewready.game.Cell;
+import interviewready.game.Move;
 
 import java.util.Arrays;
 
 public class TicTacToeBoard extends Board {
     private String[][] cells = new String[3][3];
+
     public String getCell(int i, int j) {
         //TODO validations can be added
         return cells[i][j];
     }
 
-    public void setCell(Cell cell, String symbol) {
+    private void setCell(Cell cell, String symbol) {
         cells[cell.getRow()][cell.getCol()] = symbol;
     }
 
@@ -29,5 +31,11 @@ public class TicTacToeBoard extends Board {
             s.append(builder, 0, builder.length()-3).append("\n");
         }
         return s.toString();
+    }
+
+    @Override
+    public void move(Move move) {
+        setCell(move.getCell(), move.getPlayer().getSymbol());
+
     }
 }

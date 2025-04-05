@@ -16,9 +16,9 @@ public class GameEngine {
         }
     }
 
-    public void move(Board board, Player player, Move move) {
+    public void move(Board board, Move move) {
         if (board instanceof TicTacToeBoard ticTacToeBoard) {
-            ticTacToeBoard.setCell(move.getCell(), player.getSymbol());
+            ticTacToeBoard.move(move);
         } else {
             throw new IllegalArgumentException("No a valid board type");
         }
@@ -124,7 +124,7 @@ public class GameEngine {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (ticTacToeBoard.getCell(i, j) == null) {
-                        return new Move(new Cell(i, j));
+                        return new Move(new Cell(i, j), player);
                     }
                 }
             }

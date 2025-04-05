@@ -22,7 +22,6 @@ public class GameEngine {
         } else {
             throw new IllegalArgumentException("No a valid board type");
         }
-        viewBoard(board);
     }
 
     public GameResult isCompleted(Board board) {
@@ -130,24 +129,6 @@ public class GameEngine {
                 }
             }
             throw new IllegalStateException("No cells are available !");
-        } else {
-            throw new IllegalArgumentException("No a valid board type");
-        }
-    }
-
-    public void viewBoard(Board board) {
-        System.out.println("");
-        if(board instanceof TicTacToeBoard ticTacToeBoard) {
-            for (int i = 0; i < 3; i++) {
-                StringBuilder builder = new StringBuilder();
-                for (int j = 0; j < 3; j++) {
-                    String cell = ticTacToeBoard.getCell(i, j) == null ? "-" : ticTacToeBoard.getCell(i, j);
-                    builder.append(cell);
-                    builder.append(" | ");
-                }
-                System.out.println(builder.substring(0, builder.length()-3));
-            }
-            System.out.println("");
         } else {
             throw new IllegalArgumentException("No a valid board type");
         }

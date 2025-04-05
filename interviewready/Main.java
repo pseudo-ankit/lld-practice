@@ -22,13 +22,16 @@ public class Main {
             row = scanner.nextInt();
             col = scanner.nextInt();
             engine.move(ticTacToe, user, new Move(new Cell(row, col)));
+            System.out.println(ticTacToe);
 
             if(!engine.isCompleted(ticTacToe).isCompleted()) {
                 Move move = engine.suggestMove(computer, ticTacToe);
                 engine.move(ticTacToe, computer, move);
+                System.out.println(ticTacToe);
             }
         }
 
         System.out.println("Game Result : " + engine.isCompleted(ticTacToe));
+        System.out.println(ticTacToe);
     }
 }

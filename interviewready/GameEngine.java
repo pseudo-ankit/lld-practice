@@ -2,17 +2,27 @@ package interviewready;
 
 import interviewready.boards.TicTacToeBoard;
 import interviewready.game.Board;
+import interviewready.game.Cell;
 import interviewready.game.GameResult;
 import interviewready.game.Move;
 import interviewready.game.Player;
 
 public class GameEngine {
-    public Board start() {
-        return new Board();
+    public Board start(String type) {
+        if ("TicTacToe".equals(type)) {
+            return new TicTacToeBoard();
+        } else {
+            throw new IllegalArgumentException("No a valid board type");
+        }
     }
 
     public void move(Board board, Player player, Move move) {
-
+        if (board instanceof TicTacToeBoard ticTacToeBoard) {
+            ticTacToeBoard.setCell(move.getCell(), player.getSymbol());
+        } else {
+            throw new IllegalArgumentException("No a valid board type");
+        }
+        viewBoard(board);
     }
 
     public GameResult isCompleted(Board board) {
@@ -22,16 +32,18 @@ public class GameEngine {
 
             boolean isRowComplete = true;
             for (int i = 0; i < 3; i++) {
-                isRowComplete = true;
                 firstCharacter = ticTacToeBoard.getCell(i, 0);
-                for (int j = 0; j < 3; j++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.getCell(i, j))) {
-                        isRowComplete = false;
-                        break;
+                isRowComplete = firstCharacter != null;
+                if(firstCharacter != null) {
+                    for (int j = 0; j < 3; j++) {
+                        if (!firstCharacter.equals(ticTacToeBoard.getCell(i, j))) {
+                            isRowComplete = false;
+                            break;
+                        }
                     }
+                    if (isRowComplete)
+                        break;
                 }
-                if (isRowComplete)
-                    break;
             }
 
             if (isRowComplete) {
@@ -40,16 +52,18 @@ public class GameEngine {
 
             boolean isColComplete = true;
             for (int i = 0; i < 3; i++) {
-                isColComplete = true;
                 firstCharacter = ticTacToeBoard.getCell(0, i);
-                for (int j = 0; j < 3; j++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.getCell(j, i))) {
-                        isColComplete = false;
-                        break;
+                isColComplete = firstCharacter != null;
+                if(firstCharacter != null) {
+                    for (int j = 0; j < 3; j++) {
+                        if (!firstCharacter.equals(ticTacToeBoard.getCell(j, i))) {
+                            isColComplete = false;
+                            break;
+                        }
                     }
+                    if (isColComplete)
+                        break;
                 }
-                if (isColComplete)
-                    break;
             }
 
             if (isColComplete) {
@@ -57,12 +71,14 @@ public class GameEngine {
             }
 
 
-            boolean isDiagComplete = true;
             firstCharacter = ticTacToeBoard.getCell(0, 0);
-            for (int i = 0; i < 3; i++) {
-                if (!firstCharacter.equals(ticTacToeBoard.getCell(i, i))) {
-                    isDiagComplete = false;
-                    break;
+            boolean isDiagComplete = firstCharacter != null;
+            if (firstCharacter != null) {
+                for (int i = 0; i < 3; i++) {
+                    if (!firstCharacter.equals(ticTacToeBoard.getCell(i, i))) {
+                        isDiagComplete = false;
+                        break;
+                    }
                 }
             }
 
@@ -70,12 +86,14 @@ public class GameEngine {
                 return new GameResult(true, firstCharacter);
             }
 
-            boolean isRevDiagComplete = true;
-            firstCharacter = ticTacToeBoard.getCell(2,0);
-            for (int i = 0; i < 3; i++) {
-                if (!firstCharacter.equals(ticTacToeBoard.getCell(2 - i, i))) {
-                    isRevDiagComplete = false;
-                    break;
+            firstCharacter = ticTacToeBoard.getCell(2, 0);
+            boolean isRevDiagComplete = firstCharacter != null;
+            if(firstCharacter != null) {
+                for (int i = 0; i < 3; i++) {
+                    if (!firstCharacter.equals(ticTacToeBoard.getCell(2 - i, i))) {
+                        isRevDiagComplete = false;
+                        break;
+                    }
                 }
             }
 
@@ -93,7 +111,7 @@ public class GameEngine {
                 }
             }
             if (countOfFilledgetCells == 9) {
-                return new GameResult(false, "-");
+                return new GameResult(true, "-");
             } else {
                 return new GameResult(false, "-");
             }
@@ -102,5 +120,37 @@ public class GameEngine {
         }
     }
 
+    public Move suggestMove(Player player, Board board) {
+        if (board instanceof TicTacToeBoard ticTacToeBoard) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (ticTacToeBoard.getCell(i, j) == null) {
+                        return new Move(new Cell(i, j));
+                    }
+                }
+            }
+            throw new IllegalStateException("No cells are available !");
+        } else {
+            throw new IllegalArgumentException("No a valid board type");
+        }
+    }
+
+    public void viewBoard(Board board) {
+        System.out.println("");
+        if(board instanceof TicTacToeBoard ticTacToeBoard) {
+            for (int i = 0; i < 3; i++) {
+                StringBuilder builder = new StringBuilder();
+                for (int j = 0; j < 3; j++) {
+                    String cell = ticTacToeBoard.getCell(i, j) == null ? "-" : ticTacToeBoard.getCell(i, j);
+                    builder.append(cell);
+                    builder.append(" | ");
+                }
+                System.out.println(builder.substring(0, builder.length()-3));
+            }
+            System.out.println("");
+        } else {
+            throw new IllegalArgumentException("No a valid board type");
+        }
+    }
 }
 

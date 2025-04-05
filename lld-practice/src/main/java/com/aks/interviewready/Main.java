@@ -22,14 +22,14 @@ public class Main {
         Player computer = new Player("X");
         int row, col;
         Scanner scanner = new Scanner(System.in);
-        while (!ruleEngine.isCompleted(ticTacToe).isCompleted()) {
+        while (!ruleEngine.isCompleted(ticTacToe).isOver()) {
             System.out.println("Make your move :");
             row = scanner.nextInt();
             col = scanner.nextInt();
             gameEngine.move(ticTacToe, new Move(new Cell(row, col), user));
             System.out.println(ticTacToe);
 
-            if (!ruleEngine.isCompleted(ticTacToe).isCompleted()) {
+            if (!ruleEngine.isCompleted(ticTacToe).isOver()) {
                 Move move = aiEngine.suggestMove(computer, ticTacToe);
                 gameEngine.move(ticTacToe, move);
                 System.out.println(ticTacToe);

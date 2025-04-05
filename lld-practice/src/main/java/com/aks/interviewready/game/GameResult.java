@@ -1,22 +1,22 @@
 package com.aks.interviewready.game;
 
 public class GameResult {
-    private final boolean isCompleted;
+    private final boolean isOver;
     private final String winner;
 
-    public GameResult(boolean isCompleted, String winner) {
-        this.isCompleted = isCompleted;
+    public GameResult(boolean isOver, String winner) {
+        this.isOver = isOver;
         this.winner = winner;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
+    public boolean isOver() {
+        return isOver;
     }
 
     @Override
     public String toString() {
         return "GameResult{" +
-                "isCompleted=" + isCompleted +
+                "isCompleted=" + isOver +
                 ", winner='" + winner + '\'' +
                 '}';
     }

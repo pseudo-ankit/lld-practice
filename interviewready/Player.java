@@ -1,5 +1,0 @@
-package interviewready;
-
-class Player {
-
-}

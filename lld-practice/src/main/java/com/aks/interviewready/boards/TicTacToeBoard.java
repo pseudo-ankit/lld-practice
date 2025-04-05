@@ -5,7 +5,7 @@ import com.aks.interviewready.game.Cell;
 import com.aks.interviewready.game.Move;
 
 public class TicTacToeBoard extends Board {
-    private String[][] cells = new String[3][3];
+    private final String[][] cells = new String[3][3];
 
     public String getCell(int i, int j) {
         //TODO validations can be added

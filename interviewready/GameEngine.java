@@ -23,9 +23,9 @@ public class GameEngine {
             boolean isRowComplete = true;
             for (int i = 0; i < 3; i++) {
                 isRowComplete = true;
-                firstCharacter = ticTacToeBoard.cells[i][0];
+                firstCharacter = ticTacToeBoard.getCell(i, 0);
                 for (int j = 0; j < 3; j++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.cells[i][j])) {
+                    if (!firstCharacter.equals(ticTacToeBoard.getCell(i, j))) {
                         isRowComplete = false;
                         break;
                     }
@@ -41,9 +41,9 @@ public class GameEngine {
             boolean isColComplete = true;
             for (int i = 0; i < 3; i++) {
                 isColComplete = true;
-                firstCharacter = ticTacToeBoard.cells[0][i];
+                firstCharacter = ticTacToeBoard.getCell(0, i);
                 for (int j = 0; j < 3; j++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.cells[j][i])) {
+                    if (!firstCharacter.equals(ticTacToeBoard.getCell(j, i))) {
                         isColComplete = false;
                         break;
                     }
@@ -58,9 +58,9 @@ public class GameEngine {
 
 
             boolean isDiagComplete = true;
-            firstCharacter = ticTacToeBoard.cells[0][0];
+            firstCharacter = ticTacToeBoard.getCell(0, 0);
             for (int i = 0; i < 3; i++) {
-                if (!firstCharacter.equals(ticTacToeBoard.cells[i][i])) {
+                if (!firstCharacter.equals(ticTacToeBoard.getCell(i, i))) {
                     isDiagComplete = false;
                     break;
                 }
@@ -71,9 +71,9 @@ public class GameEngine {
             }
 
             boolean isRevDiagComplete = true;
-            firstCharacter = ticTacToeBoard.cells[2][0];
+            firstCharacter = ticTacToeBoard.getCell(2,0);
             for (int i = 0; i < 3; i++) {
-                if (!firstCharacter.equals(ticTacToeBoard.cells[2 - i][i])) {
+                if (!firstCharacter.equals(ticTacToeBoard.getCell(2 - i, i))) {
                     isRevDiagComplete = false;
                     break;
                 }
@@ -84,15 +84,15 @@ public class GameEngine {
             }
 
 
-            int countOfFilledCells = 0;
+            int countOfFilledgetCells = 0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    if (ticTacToeBoard.cells[i][j] != null) {
-                        countOfFilledCells++;
+                    if (ticTacToeBoard.getCell(i, j) != null) {
+                        countOfFilledgetCells++;
                     }
                 }
             }
-            if (countOfFilledCells == 9) {
+            if (countOfFilledgetCells == 9) {
                 return new GameResult(false, "-");
             } else {
                 return new GameResult(false, "-");

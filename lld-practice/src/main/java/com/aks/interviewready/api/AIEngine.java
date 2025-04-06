@@ -10,7 +10,7 @@ public class AIEngine {
     private static final int MIN_MOVES = 3;
 
     public Move suggestMove(Player player, Board board) {
-        Move suggestion = null;
+        Move suggestion;
         if (board instanceof TicTacToeBoard ticTacToeBoard) {
             // if moves < MIN_MOVES, AI cannot determine who will win, so start with basic moves
             if(countMoves(ticTacToeBoard) < MIN_MOVES) {

@@ -5,82 +5,34 @@ import com.aks.interviewready.game.Board;
 import com.aks.interviewready.game.Cell;
 import com.aks.interviewready.game.GameResult;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 public class RuleEngine {
     public GameResult isCompleted(Board board) {
 
         if (board instanceof TicTacToeBoard ticTacToeBoard) {
-            String firstCharacter = "-";
+            GameResult gameResult;
+            BiFunction<Integer, Integer, String> getNextInRow = (i,  j) -> board.getSymbol(new Cell(i, j));
+            BiFunction<Integer, Integer, String> getNextInCol = (i,  j) -> board.getSymbol(new Cell(j, i));
+            Function<Integer, String> getNextInDiag = (i) -> board.getSymbol(new Cell(i, i));
+            Function<Integer, String> getNextInRevDiag = (i) -> board.getSymbol(new Cell(2-i, i));
 
-            boolean isRowComplete = true;
-            for (int i = 0; i < 3; i++) {
-                firstCharacter = ticTacToeBoard.getSymbol(new Cell(i, 0));
-                isRowComplete = firstCharacter != null;
-                if (firstCharacter != null) {
-                    for (int j = 0; j < 3; j++) {
-                        if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(i, j)))) {
-                            isRowComplete = false;
-                            break;
-                        }
-                    }
-                    if (isRowComplete)
-                        break;
-                }
-            }
+            // check victory along any row
+            gameResult = isVictorious(getNextInRow);
+            if (gameResult.isOver()) return gameResult;
 
-            if (isRowComplete) {
-                return new GameResult(true, firstCharacter);
-            }
+            // check victory along any col
+            gameResult = isVictorious(getNextInCol);
+            if (gameResult.isOver()) return gameResult;
 
-            boolean isColComplete = true;
-            for (int i = 0; i < 3; i++) {
-                firstCharacter = ticTacToeBoard.getSymbol(new Cell(0, i));
-                isColComplete = firstCharacter != null;
-                if (firstCharacter != null) {
-                    for (int j = 0; j < 3; j++) {
-                        if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(j, i)))) {
-                            isColComplete = false;
-                            break;
-                        }
-                    }
-                    if (isColComplete)
-                        break;
-                }
-            }
+            // check victory along any diagonal
+            gameResult = isVictorious(getNextInDiag);
+            if (gameResult.isOver()) return gameResult;
 
-            if (isColComplete) {
-                return new GameResult(true, firstCharacter);
-            }
-
-
-            firstCharacter = ticTacToeBoard.getSymbol(new Cell(0, 0));
-            boolean isDiagComplete = firstCharacter != null;
-            if (firstCharacter != null) {
-                for (int i = 0; i < 3; i++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(i, i)))) {
-                        isDiagComplete = false;
-                        break;
-                    }
-                }
-            }
-
-            if (isDiagComplete) {
-                return new GameResult(true, firstCharacter);
-            }
-
-            firstCharacter = ticTacToeBoard.getSymbol(new Cell(2, 0));
-            boolean isRevDiagComplete = firstCharacter != null;
-            if (firstCharacter != null) {
-                for (int i = 0; i < 3; i++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(2 - i, i)))) {
-                        isRevDiagComplete = false;
-                        break;
-                    }
-                }
-            }
-
-            if (isRevDiagComplete) {
-                return new GameResult(true, firstCharacter);
-            }
+            // check victory along any reverse diagonal
+            gameResult = isVictorious(getNextInRevDiag);
+            if (gameResult.isOver()) return gameResult;
 
 
             int countOfFilledgetCells = 0;
@@ -97,7 +49,42 @@ public class RuleEngine {
                 return new GameResult(false, "-");
             }
         } else {
-            return new GameResult(false, "-");
+            throw new IllegalArgumentException("Invalid Board Type");
         }
+    }
+
+    private GameResult isVictorious(Function<Integer, String> getNextSymbol) {
+        String firstCharacter = getNextSymbol.apply(0);
+        boolean isStreakPossible = true;
+        GameResult gameResult = new GameResult(false, "-");
+
+        for (int i = 0; i < 3; i++) {
+            if (firstCharacter == null || !firstCharacter.equals(getNextSymbol.apply(i))) {
+                isStreakPossible = false;
+                break;
+            }
+        }
+        if (isStreakPossible) {
+            gameResult = new GameResult(true, firstCharacter);
+        }
+        return gameResult;
+    }
+
+    private GameResult isVictorious(BiFunction<Integer, Integer, String> getNextSymbol) {
+        GameResult gameResult = new GameResult(false, "-");
+        for (int i = 0; i < 3; i++) {
+            String firstCharacter = getNextSymbol.apply(i, 0);
+            boolean isStreakPossible = true;
+
+            for (int j = 0; j < 3; j++) {
+                if (firstCharacter == null || !firstCharacter.equals(getNextSymbol.apply(i, j))) {
+                    isStreakPossible = false;
+                    break;
+                }
+            }
+            if (isStreakPossible)
+                return new GameResult(true, firstCharacter);
+        }
+        return gameResult;
     }
 }

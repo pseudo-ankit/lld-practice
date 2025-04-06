@@ -22,6 +22,7 @@ public class Main {
         Player computer = new Player("X");
         int row, col;
         Scanner scanner = new Scanner(System.in);
+        System.out.println(ticTacToe);
         while (!ruleEngine.isCompleted(ticTacToe).isOver()) {
             System.out.println("Make your move :");
             row = scanner.nextInt();

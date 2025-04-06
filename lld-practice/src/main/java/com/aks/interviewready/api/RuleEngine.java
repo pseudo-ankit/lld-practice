@@ -2,6 +2,7 @@ package com.aks.interviewready.api;
 
 import com.aks.interviewready.boards.TicTacToeBoard;
 import com.aks.interviewready.game.Board;
+import com.aks.interviewready.game.Cell;
 import com.aks.interviewready.game.GameResult;
 
 public class RuleEngine {
@@ -12,11 +13,11 @@ public class RuleEngine {
 
             boolean isRowComplete = true;
             for (int i = 0; i < 3; i++) {
-                firstCharacter = ticTacToeBoard.getCell(i, 0);
+                firstCharacter = ticTacToeBoard.getSymbol(new Cell(i, 0));
                 isRowComplete = firstCharacter != null;
                 if (firstCharacter != null) {
                     for (int j = 0; j < 3; j++) {
-                        if (!firstCharacter.equals(ticTacToeBoard.getCell(i, j))) {
+                        if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(i, j)))) {
                             isRowComplete = false;
                             break;
                         }
@@ -32,11 +33,11 @@ public class RuleEngine {
 
             boolean isColComplete = true;
             for (int i = 0; i < 3; i++) {
-                firstCharacter = ticTacToeBoard.getCell(0, i);
+                firstCharacter = ticTacToeBoard.getSymbol(new Cell(0, i));
                 isColComplete = firstCharacter != null;
                 if (firstCharacter != null) {
                     for (int j = 0; j < 3; j++) {
-                        if (!firstCharacter.equals(ticTacToeBoard.getCell(j, i))) {
+                        if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(j, i)))) {
                             isColComplete = false;
                             break;
                         }
@@ -51,11 +52,11 @@ public class RuleEngine {
             }
 
 
-            firstCharacter = ticTacToeBoard.getCell(0, 0);
+            firstCharacter = ticTacToeBoard.getSymbol(new Cell(0, 0));
             boolean isDiagComplete = firstCharacter != null;
             if (firstCharacter != null) {
                 for (int i = 0; i < 3; i++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.getCell(i, i))) {
+                    if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(i, i)))) {
                         isDiagComplete = false;
                         break;
                     }
@@ -66,11 +67,11 @@ public class RuleEngine {
                 return new GameResult(true, firstCharacter);
             }
 
-            firstCharacter = ticTacToeBoard.getCell(2, 0);
+            firstCharacter = ticTacToeBoard.getSymbol(new Cell(2, 0));
             boolean isRevDiagComplete = firstCharacter != null;
             if (firstCharacter != null) {
                 for (int i = 0; i < 3; i++) {
-                    if (!firstCharacter.equals(ticTacToeBoard.getCell(2 - i, i))) {
+                    if (!firstCharacter.equals(ticTacToeBoard.getSymbol(new Cell(2 - i, i)))) {
                         isRevDiagComplete = false;
                         break;
                     }
@@ -85,7 +86,7 @@ public class RuleEngine {
             int countOfFilledgetCells = 0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    if (ticTacToeBoard.getCell(i, j) != null) {
+                    if (ticTacToeBoard.getSymbol(new Cell(i, j)) != null) {
                         countOfFilledgetCells++;
                     }
                 }

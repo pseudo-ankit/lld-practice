@@ -3,19 +3,21 @@ package com.aks.interviewready.boards;
 import com.aks.interviewready.game.Board;
 import com.aks.interviewready.game.Cell;
 import com.aks.interviewready.game.Move;
+import com.aks.interviewready.game.Player;
 
-public class TicTacToeBoard extends Board {
+public class TicTacToeBoard implements Board {
     private final String[][] cells = new String[3][3];
 
-    public String getCell(int i, int j) {
-        //TODO validations can be added
-        return cells[i][j];
+    @Override
+    public void move(Move move) {
+        setCell(move.getCell(), move.getPlayer().getSymbol());
+
     }
 
-    private void setCell(Cell cell, String symbol) {
-        if(cells[cell.getRow()][cell.getCol()] != null)
-            throw new IllegalStateException("Cell is already set");
-        cells[cell.getRow()][cell.getCol()] = symbol;
+    @Override
+    public String getSymbol(Cell cell) {
+        //TODO validations can be added
+        return cells[cell.getRow()][cell.getCol()];
     }
 
     @Override
@@ -24,7 +26,7 @@ public class TicTacToeBoard extends Board {
         for (int i = 0; i < 3; i++) {
             StringBuilder builder = new StringBuilder();
             for (int j = 0; j < 3; j++) {
-                String cell = this.getCell(i, j) == null ? "-" : this.getCell(i, j);
+                String cell = this.getSymbol(new Cell(i, j)) == null ? "-" : this.getSymbol(new Cell(i, j));
                 builder.append(cell);
                 builder.append(" | ");
             }
@@ -34,8 +36,20 @@ public class TicTacToeBoard extends Board {
     }
 
     @Override
-    public void move(Move move) {
-        setCell(move.getCell(), move.getPlayer().getSymbol());
+    public Board copy() {
+        Board ticTacToeBoard = new TicTacToeBoard();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Move move = new Move(new Cell(i, j), new Player(this.getSymbol(new Cell(i, j))));
+                ticTacToeBoard.move(move);
+            }
+        }
+        return ticTacToeBoard;
+    }
 
+    private void setCell(Cell cell, String symbol) {
+        if(cells[cell.getRow()][cell.getCol()] != null)
+            throw new IllegalArgumentException("Cell is already set");
+        cells[cell.getRow()][cell.getCol()] = symbol;
     }
 }

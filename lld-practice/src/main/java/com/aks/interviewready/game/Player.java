@@ -11,4 +11,9 @@ public class Player {
     public String getSymbol() {
         return this.symbol;
     }
+
+    //TODO can we have a TicTacToe Player? since this logic changes with the board
+    public Player flip() {
+        return new Player(this.symbol.equals("X") ? "O" : "X");
+    }
 }

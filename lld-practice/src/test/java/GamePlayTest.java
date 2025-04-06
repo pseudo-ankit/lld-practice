@@ -10,31 +10,39 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GamePlayTest {
 
     private static GameEngine gameEngine;
     private static RuleEngine ruleEngine;
-    private static AIEngine aiEngine;
 
     @BeforeAll
     static void setUp() {
         gameEngine = new GameEngine();
         ruleEngine = new RuleEngine();
-        aiEngine = new AIEngine();
     }
 
 
     @Test
-    public void testRowWinUser() {
+    public void testRowWinFirstPlayer() {
         Board ticTacToe = gameEngine.start("TicTacToe");
-        // making moves
-        Player user = new Player("O");
-        Player computer = new Player("X");
-        int next = 0;
-        int[][] moves = new int[][] {{1, 0}, {1, 1}, {1, 2}};
-        playGame(ticTacToe, moves, next, user, computer);
+        int[][] firstPlayerMoves = new int[][] {{1, 0}, {1, 1}, {1, 2}};
+        int[][] secondPlayerMoves = new int[][] {{0, 0}, {2, 1}, {0, 2}};
+        playGame(ticTacToe, firstPlayerMoves, secondPlayerMoves);
+        assertAll(
+                () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
+                () -> assertEquals("O", ruleEngine.isCompleted(ticTacToe).getWinner())
+        );
+    }
+
+    @Test
+    public void testColWinFirstPlayer() {
+        Board ticTacToe = gameEngine.start("TicTacToe");
+        int[][] firstPlayerMoves = new int[][] {{0, 0}, {1, 0}, {2, 0}};
+        int[][] secondPlayerMoves = new int[][] {{0, 1}, {1, 1}, {2, 1}};
+        playGame(ticTacToe, firstPlayerMoves, secondPlayerMoves);
 
         assertAll(
                 () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
@@ -43,14 +51,11 @@ public class GamePlayTest {
     }
 
     @Test
-    public void testColWinUser() {
+    public void testDaigWinFirstPlayer() {
         Board ticTacToe = gameEngine.start("TicTacToe");
-        // making moves
-        Player user = new Player("O");
-        Player computer = new Player("X");
-        int next = 0;
-        int[][] moves = new int[][] {{0, 0}, {1, 0}, {2, 0}};
-        playGame(ticTacToe, moves, next, user, computer);
+        int[][] firstPlayerMoves = new int[][] {{0, 0}, {1, 1}, {2, 2}};
+        int[][] secondPlayerMoves = new int[][] {{0, 1}, {2, 0}, {2, 1}};
+        playGame(ticTacToe, firstPlayerMoves, secondPlayerMoves);
 
         assertAll(
                 () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
@@ -59,14 +64,11 @@ public class GamePlayTest {
     }
 
     @Test
-    public void testDaigWinUser() {
+    public void testRevDaigWinFirstPlayer() {
         Board ticTacToe = gameEngine.start("TicTacToe");
-        // making moves
-        Player user = new Player("O");
-        Player computer = new Player("X");
-        int next = 0;
-        int[][] moves = new int[][] {{0, 0}, {1, 1}, {2, 2}};
-        playGame(ticTacToe, moves, next, user, computer);
+        int[][] firstPlayerMoves = new int[][] {{2, 0}, {1, 1}, {0, 2}};
+        int[][] secondPlayerMoves = new int[][] {{0, 0}, {2, 1}, {2, 2}};
+        playGame(ticTacToe, firstPlayerMoves, secondPlayerMoves);
 
         assertAll(
                 () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
@@ -75,30 +77,11 @@ public class GamePlayTest {
     }
 
     @Test
-    public void testRevDaigWinUser() {
+    public void testWinSecondPlayer() {
         Board ticTacToe = gameEngine.start("TicTacToe");
-        // making moves
-        Player user = new Player("O");
-        Player computer = new Player("X");
-        int next = 0;
-        int[][] moves = new int[][] {{2, 0}, {1, 1}, {0, 2}};
-        playGame(ticTacToe, moves, next, user, computer);
-
-        assertAll(
-                () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
-                () -> assertEquals("O", ruleEngine.isCompleted(ticTacToe).getWinner())
-        );
-    }
-
-    @Test
-    public void testWinAI() {
-        Board ticTacToe = gameEngine.start("TicTacToe");
-        // making moves
-        Player user = new Player("O");
-        Player computer = new Player("X");
-        int next = 0;
-        int[][] moves = new int[][] {{1, 0}, {1, 1}, {2, 0}};
-        playGame(ticTacToe, moves, next, user, computer);
+        int[][] firstPlayerMoves = new int[][] {{1, 0}, {1, 1}, {0, 0}};
+        int[][] secondPlayerMoves = new int[][] {{2, 0}, {2, 1}, {2, 2}};
+        playGame(ticTacToe, firstPlayerMoves, secondPlayerMoves);
 
         assertAll(
                 () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
@@ -109,12 +92,9 @@ public class GamePlayTest {
     @Test
     public void testNoWin() {
         Board ticTacToe = gameEngine.start("TicTacToe");
-        // making moves
-        Player user = new Player("O");
-        Player computer = new Player("X");
-        int next = 0;
-        int[][] moves = new int[][] {{1, 0}, {1, 1}, {0, 2}, {2, 1}, {2, 2}};
-        playGame(ticTacToe, moves, next, user, computer);
+        int[][] firstPlayerMoves = new int[][] {{1, 0}, {1, 1}, {0, 2}, {2, 1}, {2, 2}};
+        int[][] secondPlayerMoves = new int[][] {{0, 0}, {0, 1}, {2, 0}, {1, 2}};
+        playGame(ticTacToe, firstPlayerMoves, secondPlayerMoves);
 
         assertAll(
                 () -> assertTrue(ruleEngine.isCompleted(ticTacToe).isOver()),
@@ -122,19 +102,28 @@ public class GamePlayTest {
         );
     }
 
-    private static void playGame(Board ticTacToe, int[][] moves, int next, Player user, Player computer) {
-        int row;
-        int col;
+    @Test
+    public void testMoveOnFilledCell() {
+        Board ticTacToe = gameEngine.start("TicTacToe");
+        int[][] firstPlayerMoves = new int[][] {{1, 0}};
+        assertThrows(IllegalArgumentException.class, () -> playGame(ticTacToe, firstPlayerMoves, firstPlayerMoves));
+    }
+
+    private static void playGame(Board ticTacToe, int[][] firstPlayerMoves, int[][] secondPlayerMoves) {
+        Player firstPlayer = new Player("O");
+        Player secondPlayer = new Player("X");
+        int next = 0;
         while (!ruleEngine.isCompleted(ticTacToe).isOver()) {
-            row = moves[next][0];
-            col = moves[next][1];
-            next++;
-            
-            gameEngine.move(ticTacToe, new Move(new Cell(row, col), user));
+            int fRow = firstPlayerMoves[next][0];
+            int fCol = firstPlayerMoves[next][1];
+
+            gameEngine.move(ticTacToe, new Move(new Cell(fRow, fCol), firstPlayer));
             if (!ruleEngine.isCompleted(ticTacToe).isOver()) {
-                Move move = aiEngine.suggestMove(computer, ticTacToe);
-                gameEngine.move(ticTacToe, move);
+                int sRow = secondPlayerMoves[next][0];
+                int sCol = secondPlayerMoves[next][1];
+                gameEngine.move(ticTacToe, new Move(new Cell(sRow, sCol), secondPlayer));
             }
+            next++;
         }
     }
 }

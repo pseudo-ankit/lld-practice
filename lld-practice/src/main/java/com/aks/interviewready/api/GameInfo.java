@@ -2,26 +2,33 @@ package com.aks.interviewready.api;
 
 import com.aks.interviewready.game.Player;
 
-public class GameInfo {
-    // private final GameResult gameResult;
-    private final boolean hasFork;
-    private final Player player;
+/**
+ *
+ * @param player
+ * @param hasFork
+ */
+public record GameInfo(Player player, boolean hasFork) {
 
-    public GameInfo(Player player, boolean hasFork) {
-        this.hasFork = hasFork;
-        this.player = player;
-        // this.gameResult = gameResult;
+    public static GameInfoBuilder builder() {
+        return new GameInfoBuilder();
     }
 
-    // public GameResult getGameResult() {
-    //     return gameResult;
-    // }
+    public static class GameInfoBuilder {
+        private boolean hasFork;
+        private Player player;
 
-    public boolean isHasFork() {
-        return hasFork;
-    }
+        public GameInfoBuilder hasFork(boolean hasFork) {
+            this.hasFork = hasFork;
+            return this;
+        }
 
-    public Player getPlayer() {
-        return player;
+        public GameInfoBuilder player(Player player) {
+            this.player = player;
+            return this;
+        }
+
+        public GameInfo build() {
+            return new GameInfo(this.player, this.hasFork);
+        }
     }
 }

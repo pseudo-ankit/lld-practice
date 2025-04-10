@@ -203,10 +203,10 @@ public class GamePlayTest {
             Board ticTacToe = buildBoard(testCase.matrix);
             GameInfo gameInfo = ruleEngine.getFork(ticTacToe);
             if (testCase.isFork) {
-                assertTrue(gameInfo.isHasFork(), "index : {%s}".formatted(count[0]));
-                assertEquals("X", gameInfo.getPlayer().getSymbol());
+                assertTrue(gameInfo.hasFork(), "index : {%s}".formatted(count[0]));
+                assertEquals("X", gameInfo.player().getSymbol());
             } else {
-                assertFalse(gameInfo.isHasFork(), "index : {%s}".formatted(count[0]));
+                assertFalse(gameInfo.hasFork(), "index : {%s}".formatted(count[0]));
             }
             count[0]++;
         });

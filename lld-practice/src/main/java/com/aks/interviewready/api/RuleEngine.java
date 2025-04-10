@@ -37,13 +37,20 @@ public class RuleEngine {
     public GameInfo getFork(Board board) {
         if (board instanceof TicTacToeBoard ticTacToeBoard) {
             if (getState(ticTacToeBoard).isOver())
-                return new GameInfo(null, false);
+                return GameInfo.builder()
+                        .hasFork(false)
+                        .build();
             Player[] players = new Player[]{new Player("X"), new Player("O")};
             for (var player : players) {
                 if (isFork(player, ticTacToeBoard))
-                    return new GameInfo(player.flip(), true);
+                    return GameInfo.builder()
+                            .player(player.flip())
+                            .hasFork(true)
+                            .build();
             }
-            return new GameInfo(null, false);
+            return GameInfo.builder()
+                    .hasFork(false)
+                    .build();
         } else {
             throw new IllegalArgumentException("Invalid Board Type");
         }

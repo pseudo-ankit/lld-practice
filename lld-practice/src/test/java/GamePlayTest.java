@@ -198,11 +198,6 @@ public class GamePlayTest {
                         {" ", " ", " "}
                 }, false));
 
-        String[][] board = {
-                {"X", " ", " "},
-                {" ", "O", " "},
-                {"X", " ", "X"}
-        };
         final int[] count = {1};
         testCases.forEach(testCase -> {
             Board ticTacToe = buildBoard(testCase.matrix);
@@ -240,7 +235,7 @@ public class GamePlayTest {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String symbol = board[i][j];
-                if (symbol != " ") {
+                if (!symbol.equals(" ")) {
                     ticTacToe.move(new Move(new Cell(i, j), new Player(board[i][j])));
                 }
             }
@@ -248,9 +243,9 @@ public class GamePlayTest {
         return ticTacToe;
     }
 
-    class TestCase {
+    static class TestCase {
         String[][] matrix;
-        boolean isFork = false;
+        boolean isFork;
 
         public TestCase(String[][] matrix, boolean isFork) {
             this.matrix = matrix;

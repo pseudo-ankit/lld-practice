@@ -23,21 +23,21 @@ public class Main {
         int row, col;
         Scanner scanner = new Scanner(System.in);
         System.out.println(ticTacToe);
-        while (!ruleEngine.isCompleted(ticTacToe).isOver()) {
+        while (!ruleEngine.getState(ticTacToe).isOver()) {
             System.out.println("Make your move :");
             row = scanner.nextInt();
             col = scanner.nextInt();
             gameEngine.move(ticTacToe, new Move(new Cell(row, col), user));
             System.out.println(ticTacToe);
 
-            if (!ruleEngine.isCompleted(ticTacToe).isOver()) {
+            if (!ruleEngine.getState(ticTacToe).isOver()) {
                 Move move = aiEngine.suggestMove(computer, ticTacToe);
                 gameEngine.move(ticTacToe, move);
                 System.out.println(ticTacToe);
             }
         }
 
-        System.out.println("Game Result : " + ruleEngine.isCompleted(ticTacToe));
+        System.out.println("Game Result : " + ruleEngine.getState(ticTacToe));
         System.out.println(ticTacToe);
     }
 }

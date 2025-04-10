@@ -49,7 +49,7 @@ public class TicTacToeBoard implements Board {
 
     private void setCell(Cell cell, String symbol) {
         if(cells[cell.getRow()][cell.getCol()] != null)
-            throw new IllegalArgumentException("Cell is already set");
+            throw new IllegalArgumentException("Cell is already set (%s, %s)".formatted(cell.getRow(), cell.getRow()));
         cells[cell.getRow()][cell.getCol()] = symbol;
     }
 }

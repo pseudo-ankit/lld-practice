@@ -13,7 +13,7 @@ public class AIEngine {
         Move suggestion;
         if (board instanceof TicTacToeBoard ticTacToeBoard) {
             // if moves < MIN_MOVES, AI cannot determine who will win, so start with basic moves
-            if(countMoves(ticTacToeBoard) < MIN_MOVES) {
+            if (countMoves(ticTacToeBoard) < MIN_MOVES) {
                 suggestion = getBasicMove(player, ticTacToeBoard);
             } else {
                 suggestion = getSmartMove(player, ticTacToeBoard);
@@ -38,7 +38,7 @@ public class AIEngine {
                     copy.move(move);
                     // if the player makes this move
                     // either player will win or the game will end (board full)
-                    if(ruleEngine.isCompleted(copy).isOver()) {
+                    if (ruleEngine.getState(copy).isOver()) {
                         return move;
                     }
                 }
@@ -54,7 +54,7 @@ public class AIEngine {
                     Move move = new Move(new Cell(i, j), opponentPlayer);
                     copy.move(move);
                     // opponent will win with this move, so block it
-                    if(ruleEngine.isCompleted(copy).isOver()) {
+                    if (ruleEngine.getState(copy).isOver()) {
                         return new Move(new Cell(i, j), player);
                     }
                 }

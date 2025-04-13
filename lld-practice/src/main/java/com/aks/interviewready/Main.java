@@ -31,7 +31,7 @@ public class Main {
             System.out.println(ticTacToe);
 
             if (!ruleEngine.getState(ticTacToe).isOver()) {
-                Move move = aiEngine.suggestMove(computer, ticTacToe);
+                Move move = new Move(aiEngine.suggestCellToPlay(computer, ticTacToe), computer);
                 gameEngine.move(ticTacToe, move);
                 System.out.println(ticTacToe);
             }

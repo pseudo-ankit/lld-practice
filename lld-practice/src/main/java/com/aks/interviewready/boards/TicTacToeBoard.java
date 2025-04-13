@@ -2,8 +2,8 @@ package com.aks.interviewready.boards;
 
 import com.aks.interviewready.api.GameRule;
 import com.aks.interviewready.api.RuleSet;
-import com.aks.interviewready.game.Board;
 import com.aks.interviewready.game.Cell;
+import com.aks.interviewready.game.CellBoard;
 import com.aks.interviewready.game.GameResult;
 import com.aks.interviewready.game.Move;
 import com.aks.interviewready.game.Player;
@@ -11,7 +11,7 @@ import com.aks.interviewready.game.Player;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class TicTacToeBoard implements Board {
+public class TicTacToeBoard implements CellBoard {
     private final String[][] cells = new String[3][3];
 
     @Override
@@ -20,6 +20,7 @@ public class TicTacToeBoard implements Board {
 
     }
 
+    @Override
     public String getSymbol(Cell cell) {
         // TODO validations can be added
         return cells[cell.getRow()][cell.getCol()];
@@ -61,15 +62,15 @@ public class TicTacToeBoard implements Board {
     public static RuleSet<TicTacToeBoard> getRuleSet() {
         RuleSet<TicTacToeBoard> rules = new RuleSet<>();
         // Row Rule
-        rules.add(new GameRule<>(board -> isVictorious((i, j) -> board.getSymbol(new Cell(i, j)))));
+        rules.add(new GameRule(board -> isVictorious((i, j) -> board.getSymbol(new Cell(i, j)))));
         // Column Rule
-        rules.add(new GameRule<>(board -> isVictorious((i, j) -> board.getSymbol(new Cell(j, i)))));
+        rules.add(new GameRule(board -> isVictorious((i, j) -> board.getSymbol(new Cell(j, i)))));
         // Diagonal Rule
-        rules.add(new GameRule<>(board -> isVictorious(i -> board.getSymbol(new Cell(i, i)))));
+        rules.add(new GameRule(board -> isVictorious(i -> board.getSymbol(new Cell(i, i)))));
         // Reverse Diagonal Rule
-        rules.add(new GameRule<>(board -> isVictorious(i -> board.getSymbol(new Cell(2 - i, i)))));
+        rules.add(new GameRule(board -> isVictorious(i -> board.getSymbol(new Cell(2 - i, i)))));
         // Board Filled Rule
-        rules.add(new GameRule<>(TicTacToeBoard::isBoardFilled));
+        rules.add(new GameRule(TicTacToeBoard::isBoardFilled));
         return rules;
     }
 
@@ -108,7 +109,7 @@ public class TicTacToeBoard implements Board {
         return gameResult;
     }
 
-    private static GameResult isBoardFilled(TicTacToeBoard board) {
+    private static GameResult isBoardFilled(CellBoard board) {
         int countOfFilledgetCells = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

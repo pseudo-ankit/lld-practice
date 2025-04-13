@@ -8,25 +8,25 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public class RuleSet<T extends Board> implements Iterable<GameRule<T>> {
-    private final List<GameRule<T>> rules = new ArrayList<>();
+public class RuleSet<T extends Board> implements Iterable<GameRule> {
+    private final List<GameRule> rules = new ArrayList<>();
 
-    public void add(GameRule<T> boardGameRule) {
+    public void add(GameRule boardGameRule) {
         rules.add(boardGameRule);
     }
 
     @Override
-    public Iterator<GameRule<T>> iterator() {
+    public Iterator<GameRule> iterator() {
         return rules.iterator();
     }
 
     @Override
-    public void forEach(Consumer<? super GameRule<T>> action) {
+    public void forEach(Consumer<? super GameRule> action) {
         rules.forEach(action);
     }
 
     @Override
-    public Spliterator<GameRule<T>> spliterator() {
+    public Spliterator<GameRule> spliterator() {
         return rules.spliterator();
     }
 }

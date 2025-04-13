@@ -5,6 +5,8 @@ import com.aks.interviewready.game.Board;
 import com.aks.interviewready.game.Cell;
 import com.aks.interviewready.game.Move;
 import com.aks.interviewready.game.Player;
+import com.aks.interviewready.placements.OffensivePlacement;
+import com.aks.interviewready.placements.Placements;
 
 import java.util.Optional;
 
@@ -30,26 +32,22 @@ public class AIEngine {
     }
 
     private Cell getOptimalMove(Player player, TicTacToeBoard ticTacToeBoard) {
-        RuleEngine ruleEngine = new RuleEngine();
-        return Optional
-                //1. play winning move
-                .ofNullable(offensive(ruleEngine, player, ticTacToeBoard))
-                //2. opp is winning, block it
-                .or(() -> Optional.ofNullable(defensive(ruleEngine, player, ticTacToeBoard)))
-                //3. if a fork, play it
-                .or(() -> Optional.ofNullable(ruleEngine.getFork(ticTacToeBoard)).filter(GameInfo::hasFork).map(GameInfo::forkCell))
-                //4. if center is available, take it
-                .or(() -> Optional.of(new Cell(1, 1)).filter(c -> ticTacToeBoard.getSymbol(c) == null))
-                //5. if corner is available, take it
-                .or(() -> Optional.of(new int[][]{{0, 0}, {2, 0}, {0, 2}, {2, 2}})
-                        .map(corners -> {
-                            for(int i=0; i<4;i++) {
-                                if (ticTacToeBoard.getSymbol(new Cell(corners[i][0], corners[i][1])) == null)
-                                    return new Cell(corners[i][0], corners[i][1]);
-                            }
-                            return null;
-                        }))
-                .orElse(null);
+        // Placement Sequence
+        //1. play winning move
+        //2. opp is winning, block it
+        //3. if a fork, play it
+        //4. if center is available, take it
+        //5. if corner is available, take it
+        Placements placement = OffensivePlacement.get();
+        while (placement != null) {
+            Optional<Cell> place = placement.place(ticTacToeBoard, player);
+            if (place.isPresent())
+                return place.get();
+            placement = placement.next();
+        }
+
+        return null;
+
     }
 
     private Cell getSmartMove(Player player, TicTacToeBoard ticTacToeBoard) {

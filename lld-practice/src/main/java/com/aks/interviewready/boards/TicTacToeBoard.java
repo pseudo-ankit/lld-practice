@@ -6,18 +6,28 @@ import com.aks.interviewready.game.Cell;
 import com.aks.interviewready.game.CellBoard;
 import com.aks.interviewready.game.GameResult;
 import com.aks.interviewready.game.Move;
-import com.aks.interviewready.game.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class TicTacToeBoard implements CellBoard {
     private final String[][] cells = new String[3][3];
+    private History history = new History();
 
     @Override
     public void move(Move move) {
+        var copy = copy();
+        // shared resource
+        copy.history = this.history;
+        history.add(getBoardRep(copy));
         setCell(move.getCell(), move.getPlayer().getSymbol());
 
+    }
+
+    public Representation getBoardRep(TicTacToeBoard board) {
+        return new Representation(board);
     }
 
     @Override
@@ -46,8 +56,7 @@ public class TicTacToeBoard implements CellBoard {
         TicTacToeBoard ticTacToeBoard = new TicTacToeBoard();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Move move = new Move(new Cell(i, j), new Player(this.getSymbol(new Cell(i, j))));
-                ticTacToeBoard.move(move);
+                ticTacToeBoard.setCell(new Cell(i, j), this.getSymbol(new Cell(i, j)));
             }
         }
         return ticTacToeBoard;
@@ -124,4 +133,35 @@ public class TicTacToeBoard implements CellBoard {
             return new GameResult(false, "-");
         }
     }
+
+}
+class History {
+    List<Representation> boards;
+
+    public History() {
+        boards = new ArrayList<>();
+    }
+
+    public void add(Representation boardRep) {
+        boards.add(boardRep);
+    }
+
+    public Representation undo() {
+        return boards.remove(boards.size()-1);
+    }
+
+    public Representation setHistoryAtMoveIndex(int moveIndex) {
+        int removeCount = boards.size() - moveIndex;
+        for(int i=0; i<removeCount; i++) {
+            boards.remove(boards.size()-1);
+        }
+        return boards.get(moveIndex-1);
+    }
+}
+
+class Representation {
+    public Representation(TicTacToeBoard board) {
+
+    }
+    String boardRep;
 }

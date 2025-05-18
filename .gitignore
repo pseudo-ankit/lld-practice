@@ -1,7 +1,7 @@
-# Compiled class file
+# Compiled class files
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package files
 *.jar
 *.war
 *.nar
@@ -19,8 +19,50 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Virtual machine crash logs
 hs_err_pid*
 replay_pid*
 
-.idea
+# IntelliJ IDEA project files
+.idea/
+*.iml
+*.iws
+
+# IntelliJ run configurations
+out/
+
+# Maven target directory
+target/
+
+# Gradle build directories
+.gradle/
+build/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Local environment settings
+*.env
+*.local
+.env.*
+!.env.example
+
+# Backup or temp files
+*~
+*.swp
+*.bak
+*.tmp
+
+# Logs and coverage reports
+logs/
+coverage/
+jacoco.exec
+
+# IDE cache
+.idea/
+*.ipr
+*.iws
+
+# Optional: VSCode (if ever used)
+.vscode/
